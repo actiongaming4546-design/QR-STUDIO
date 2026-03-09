@@ -3,8 +3,7 @@
 <head>
 
 <title>QR Dashboard</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
 
@@ -25,21 +24,23 @@ background:#151823;
 .container{
 max-width:700px;
 margin:auto;
-padding:40px;
+padding:20px;
 }
 
 .card{
 background:#1b1f2b;
 padding:30px;
 border-radius:12px;
+margin-bottom:20px;
 }
 
-input{
+input, select{
 width:100%;
 padding:10px;
 margin-top:10px;
 border-radius:6px;
 border:none;
+text-align:left;
 }
 
 button{
@@ -57,6 +58,44 @@ margin-top:20px;
 text-align:center;
 }
 
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background: #151823;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+}
+
+.tab-button.active {
+    background: #1b1f2b;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    .card {
+        padding: 20px;
+    }
+    .tabs {
+        flex-direction: column;
+    }
+}
+
 </style>
 
 </head>
@@ -65,68 +104,140 @@ text-align:center;
 
 <header>
 
-<h2>QR Studio</h2>
+<div class="logo">QR Studio</div>
 
 <div>
-<a href="/" style="color:white;">Home</a>
+<a href="/"><i class="fas fa-home"></i> Home</a>
+<a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
 </header>
 
 <div class="container">
 
-<h2>Create QR Code</h2>
+<h2><i class="fas fa-qrcode"></i> Create QR Code</h2>
 
-<div class="card">
+<div class="tabs">
+    <button class="tab-button active" onclick="showTab('url')"><i class="fas fa-link"></i> URL</button>
+    <button class="tab-button" onclick="showTab('wifi')"><i class="fas fa-wifi"></i> WiFi</button>
+    <button class="tab-button" onclick="showTab('phone')"><i class="fas fa-phone"></i> Phone</button>
+    <button class="tab-button" onclick="showTab('sms')"><i class="fas fa-sms"></i> SMS</button>
+    <button class="tab-button" onclick="showTab('email')"><i class="fas fa-envelope"></i> Email</button>
+    <button class="tab-button" onclick="showTab('contact')"><i class="fas fa-user"></i> Contact</button>
+    <button class="tab-button" onclick="showTab('location')"><i class="fas fa-map-marker-alt"></i> Location</button>
+</div>
 
-<input id="qrtext" placeholder="Enter text or URL">
+<form id="qrForm" method="POST" action="/generate" enctype="multipart/form-data">
+    <input type="hidden" name="type" id="qrType" value="url">
 
-<button onclick="generateQR()">Generate QR</button>
+    <div id="url" class="tab-content active">
+        <div class="card">
+            <label><i class="fas fa-link"></i> Enter URL</label>
+            <input name="url" placeholder="https://example.com">
+        </div>
+    </div>
 
-<button onclick="downloadQR()">Download QR</button>
+    <div id="wifi" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-wifi"></i> WiFi Name (SSID)</label>
+            <input name="ssid" placeholder="MyWiFi">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input name="password" placeholder="password" type="password">
+            <label><i class="fas fa-shield-alt"></i> Encryption</label>
+            <select name="encryption">
+                <option value="WPA">WPA</option>
+                <option value="WEP">WEP</option>
+                <option value="nopass">No Password</option>
+            </select>
+        </div>
+    </div>
 
-<div id="qr"></div>
+    <div id="phone" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-phone"></i> Phone Number</label>
+            <input name="phone" placeholder="+1234567890">
+        </div>
+    </div>
 
+    <div id="sms" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-sms"></i> Phone Number</label>
+            <input name="phone" placeholder="+1234567890">
+        </div>
+    </div>
+
+    <div id="email" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-envelope"></i> Email Address</label>
+            <input name="email" placeholder="user@example.com">
+        </div>
+    </div>
+
+    <div id="contact" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-phone"></i> Phone</label>
+            <input name="phone" placeholder="+1234567890">
+            <label><i class="fas fa-envelope"></i> Email</label>
+            <input name="email" placeholder="john@example.com">
+        </div>
+    </div>
+
+    <div id="location" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-map-marker-alt"></i> Address</label>
+            <input name="address" placeholder="1600 Amphitheatre Parkway, Mountain View, CA">
+        </div>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-palette"></i> Customization</h3>
+        <label><i class="fas fa-image"></i> Logo (optional)</label>
+        <input name="logo" type="file" accept="image/*">
+        <label><i class="fas fa-file-download"></i> Format</label>
+        <select name="format">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="svg">SVG</option>
+            <option value="pdf">PDF</option>
+        </select>
+        <button type="button" onclick="previewQR()"><i class="fas fa-eye"></i> Preview</button>
+        <button type="submit"><i class="fas fa-download"></i> Download</button>
+    </div>
+</form>
+
+<div id="preview" class="card" style="display:none;">
+    <h3><i class="fas fa-image"></i> Preview</h3>
+    <img id="qrPreview" src="" alt="QR Code Preview">
 </div>
 
 </div>
 
 <script>
 
-function generateQR(){
-
-let text = document.getElementById("qrtext").value
-
-if(text===""){
-alert("Enter text first")
-return
+function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    document.querySelector(`button[onclick="showTab('${tabName}')"]`).classList.add('active');
+    document.getElementById('qrType').value = tabName;
 }
 
-let qr = document.getElementById("qr")
-qr.innerHTML=""
-
-new QRCode(qr,{
-text:text,
-width:200,
-height:200
-})
-
-}
-
-function downloadQR(){
-
-let img=document.querySelector("#qr img")
-
-if(!img){
-alert("Generate QR first")
-return
-}
-
-let link=document.createElement("a")
-link.href=img.src
-link.download="qr.png"
-link.click()
-
+function previewQR() {
+    const formData = new FormData(document.getElementById('qrForm'));
+    fetch('/preview', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            document.getElementById('qrPreview').src = data.image;
+            document.getElementById('preview').style.display = 'block';
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 </script>

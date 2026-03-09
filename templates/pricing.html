@@ -1,60 +1,128 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>QR Dashboard</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
+<title>Pricing - QR Studio</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 
 body{
-margin:0;
-font-family:Arial;
-background:#0f1117;
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(135deg, #0f1117 0%, #1a1d29 100%);
 color:white;
-}
-
-header{
-display:flex;
-justify-content:space-between;
-padding:20px;
-background:#151823;
-}
-
-.container{
-max-width:700px;
-margin:auto;
+margin:0;
 padding:40px;
 }
 
-.card{
-background:#1b1f2b;
-padding:30px;
-border-radius:12px;
+h1{
+text-align:center;
+font-size:3rem;
+margin-bottom:10px;
+background: linear-gradient(45deg, #ffffff, #4c7cff);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 }
 
-input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:6px;
-border:none;
+.subtitle{
+text-align:center;
+opacity:0.8;
+margin-bottom:60px;
+font-size:1.2rem;
+}
+
+.pricing{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+gap:30px;
+max-width:1200px;
+margin:0 auto;
+}
+
+.card{
+background: rgba(31, 33, 47, 0.9);
+padding:40px 30px;
+border-radius:20px;
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.1);
+box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+text-align:center;
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+
+.card::before{
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:5px;
+background: linear-gradient(45deg, #4c7cff, #6d93ff);
+}
+
+.card:hover{
+transform: translateY(-10px);
+box-shadow: 0 20px 40px rgba(76,124,255,0.2);
+}
+
+.card.popular{
+border-color:#4c7cff;
+box-shadow: 0 8px 32px rgba(76,124,255,0.3);
+}
+
+.card.popular::before{
+background: linear-gradient(45deg, #ff6b6b, #4c7cff);
+}
+
+h3{
+font-size:2rem;
+margin-bottom:10px;
+}
+
+.price{
+font-size:3rem;
+font-weight:bold;
+color:#4c7cff;
+margin-bottom:20px;
+}
+
+.features{
+list-style:none;
+padding:0;
+margin-bottom:30px;
+}
+
+.features li{
+margin-bottom:10px;
+opacity:0.9;
 }
 
 button{
-margin-top:10px;
-padding:12px 18px;
+background: linear-gradient(45deg, #4c7cff, #6d93ff);
 border:none;
-background:#4c7cff;
+padding:15px 30px;
+border-radius:25px;
 color:white;
-border-radius:8px;
 cursor:pointer;
+font-size:16px;
+font-weight:600;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(76,124,255,0.3);
 }
 
-#qr{
-margin-top:20px;
-text-align:center;
+button:hover{
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(76,124,255,0.4);
+}
+
+@media (max-width: 768px) {
+.pricing{
+grid-template-columns:1fr;
+}
+body{
+padding:20px;
+}
 }
 
 </style>
@@ -63,73 +131,55 @@ text-align:center;
 
 <body>
 
-<header>
+<h1>Choose Your Plan</h1>
 
-<h2>QR Studio</h2>
+<p class="subtitle">Unlock the full potential of QR Studio with our flexible pricing options</p>
 
-<div>
-<a href="/" style="color:white;">Home</a>
-</div>
-
-</header>
-
-<div class="container">
-
-<h2>Create QR Code</h2>
+<div class="pricing">
 
 <div class="card">
+<h3><i class="fas fa-star"></i> Free</h3>
+<div class="price">$0</div>
+<ul class="features">
+<li><i class="fas fa-check"></i> Basic QR Codes</li>
+<li><i class="fas fa-check"></i> URL Generation</li>
+<li><i class="fas fa-check"></i> PNG Download</li>
+<li><i class="fas fa-times"></i> No Customization</li>
+</ul>
+<a href="/login">
+<button>Start Free</button>
+</a>
+</div>
 
-<input id="qrtext" placeholder="Enter text or URL">
+<div class="card popular">
+<h3><i class="fas fa-crown"></i> Pro</h3>
+<div class="price">$9<span style="font-size:1rem;"> / month</span></div>
+<ul class="features">
+<li><i class="fas fa-check"></i> All Free Features</li>
+<li><i class="fas fa-check"></i> Custom Colors & Logos</li>
+<li><i class="fas fa-check"></i> Multiple Formats (PNG, JPG, SVG, PDF)</li>
+<li><i class="fas fa-check"></i> Advanced QR Types</li>
+</ul>
+<a href="/login">
+<button>Buy Pro</button>
+</a>
+</div>
 
-<button onclick="generateQR()">Generate QR</button>
-
-<button onclick="downloadQR()">Download QR</button>
-
-<div id="qr"></div>
-
+<div class="card">
+<h3><i class="fas fa-building"></i> Business</h3>
+<div class="price">$29<span style="font-size:1rem;"> / month</span></div>
+<ul class="features">
+<li><i class="fas fa-check"></i> All Pro Features</li>
+<li><i class="fas fa-check"></i> Batch Generation</li>
+<li><i class="fas fa-check"></i> Analytics & Tracking</li>
+<li><i class="fas fa-check"></i> Priority Support</li>
+</ul>
+<a href="/login">
+<button>Buy Business</button>
+</a>
 </div>
 
 </div>
-
-<script>
-
-function generateQR(){
-
-let text = document.getElementById("qrtext").value
-
-if(text===""){
-alert("Enter text first")
-return
-}
-
-let qr = document.getElementById("qr")
-qr.innerHTML=""
-
-new QRCode(qr,{
-text:text,
-width:200,
-height:200
-})
-
-}
-
-function downloadQR(){
-
-let img=document.querySelector("#qr img")
-
-if(!img){
-alert("Generate QR first")
-return
-}
-
-let link=document.createElement("a")
-link.href=img.src
-link.download="qr.png"
-link.click()
-
-}
-
-</script>
 
 </body>
 </html>
