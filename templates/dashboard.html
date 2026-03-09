@@ -3,6 +3,7 @@
 <head>
 
 <title>QR Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
@@ -93,6 +94,24 @@ text-align:center;
     }
     .tabs {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tabs .tab-button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    input, select {
+        font-size: 14px;
+    }
+    button {
+        font-size: 14px;
+        padding: 10px;
     }
 }
 

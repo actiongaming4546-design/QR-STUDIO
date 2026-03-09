@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>QR Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 
@@ -48,6 +49,14 @@ font-weight:500;
 transition: all 0.3s ease;
 position: relative;
 }
+
+/* hamburger menu icon hidden by default */
+.nav-toggle{
+display:none;
+font-size:1.5rem;
+cursor:pointer;
+}
+
 
 nav a:hover{
 color:#4c7cff;
@@ -246,6 +255,7 @@ grid-template-columns:1fr;
 <header>
 
 <div class="logo">QR Studio</div>
+<div class="nav-toggle"><i class="fas fa-bars"></i></div>
 
 <nav>
 <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -304,6 +314,19 @@ grid-template-columns:1fr;
 <footer>
 <p>&copy; 2026 QR Studio V2 (BETA) - Made with <i class="fas fa-heart" style="color:#4c7cff;"></i> in India</p>
 </footer>
+
+<script>
+// mobile nav toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('nav');
+navToggle && navToggle.addEventListener('click', () => {
+    if (navMenu.style.display === 'flex') {
+        navMenu.style.display = 'none';
+    } else {
+        navMenu.style.display = 'flex';
+    }
+});
+</script>
 
 </body>
 </html>
