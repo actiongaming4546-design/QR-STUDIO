@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>QR Dashboard</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0f1117;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+padding:20px;
+background:#151823;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+padding:40px;
+}
+
+.card{
+background:#1b1f2b;
+padding:30px;
+border-radius:12px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:6px;
+border:none;
+}
+
+button{
+margin-top:10px;
+padding:12px 18px;
+border:none;
+background:#4c7cff;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+#qr{
+margin-top:20px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>QR Studio</h2>
+
+<div>
+<a href="/" style="color:white;">Home</a>
+</div>
+
+</header>
+
+<div class="container">
+
+<h2>Create QR Code</h2>
+
+<div class="card">
+
+<input id="qrtext" placeholder="Enter text or URL">
+
+<button onclick="generateQR()">Generate QR</button>
+
+<button onclick="downloadQR()">Download QR</button>
+
+<div id="qr"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function generateQR(){
+
+let text = document.getElementById("qrtext").value
+
+if(text===""){
+alert("Enter text first")
+return
+}
+
+let qr = document.getElementById("qr")
+qr.innerHTML=""
+
+new QRCode(qr,{
+text:text,
+width:200,
+height:200
+})
+
+}
+
+function downloadQR(){
+
+let img=document.querySelector("#qr img")
+
+if(!img){
+alert("Generate QR first")
+return
+}
+
+let link=document.createElement("a")
+link.href=img.src
+link.download="qr.png"
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
