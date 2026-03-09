@@ -51,6 +51,39 @@ font-size:16px;
 transition: all 0.3s ease;
 }
 
+.form-input{
+width:100%;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.2);
+background: rgba(255,255,255,0.05);
+color:white;
+font-size:16px;
+transition: all 0.3s ease;
+}
+
+.btn-submit{
+width:100%;
+margin-top:25px;
+padding:15px;
+border:none;
+background: linear-gradient(45deg, #4c7cff, #6d93ff);
+color:white;
+border-radius:25px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(76,124,255,0.3);
+}
+
+.btn-submit:hover{
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(76,124,255,0.4);
+}
+
+
 input:focus{
 outline:none;
 border-color:#4c7cff;
@@ -130,12 +163,24 @@ button {
   {% endif %}
 {% endwith %}
 
-<form method="POST">
+<form method="POST" novalidate>
     {{ form.hidden_tag() }}
-    <input name="email" placeholder="Email" required>
-    <input name="password" placeholder="Password" type="password" required>
-    <input name="confirm_password" placeholder="Confirm Password" type="password" required>
-    <button type="submit">Register</button>
+    {{ form.email(placeholder="Email", class="form-input") }}
+    {% if form.email.errors %}
+        <div class="error" style="color:#ff4d4d;font-size:12px;margin-top:5px;">{{ form.email.errors[0] }}</div>
+    {% endif %}
+    
+    {{ form.password(placeholder="Password", class="form-input") }}
+    {% if form.password.errors %}
+        <div class="error" style="color:#ff4d4d;font-size:12px;margin-top:5px;">{{ form.password.errors[0] }}</div>
+    {% endif %}
+    
+    {{ form.confirm_password(placeholder="Confirm Password", class="form-input") }}
+    {% if form.confirm_password.errors %}
+        <div class="error" style="color:#ff4d4d;font-size:12px;margin-top:5px;">{{ form.confirm_password.errors[0] }}</div>
+    {% endif %}
+    
+    {{ form.submit(value="Register", class="btn-submit") }}
 </form>
 
 <p>Already have an account? <a href="/login">Login</a></p>

@@ -50,12 +50,6 @@ def home():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        # verify confirmation password matches (form has no field for it, check raw data)
-        pwd = request.form.get('password')
-        pwd2 = request.form.get('confirm_password')
-        if pwd != pwd2:
-            flash('Passwords do not match.')
-            return redirect(url_for('register'))
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash('Email already registered.')
@@ -64,7 +58,7 @@ def register():
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        flash('Registration successful!')
+        flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template("register.html", form=form)
 
