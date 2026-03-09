@@ -109,6 +109,14 @@ padding:30px;
 
 <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash" style="background:#ff4d4d;padding:10px;border-radius:8px;margin-bottom:15px;">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
 <form method="POST">
     {{ form.hidden_tag() }}
     <input name="email" placeholder="Email" required>

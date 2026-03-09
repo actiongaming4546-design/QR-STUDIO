@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, FileField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 import qrcode
 from PIL import Image, ImageDraw
 import io
@@ -39,6 +39,7 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Register')
 
 @app.route("/")
@@ -49,6 +50,12 @@ def home():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        # verify confirmation password matches (form has no field for it, check raw data)
+        pwd = request.form.get('password')
+        pwd2 = request.form.get('confirm_password')
+        if pwd != pwd2:
+            flash('Passwords do not match.')
+            return redirect(url_for('register'))
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash('Email already registered.')
