@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>QR Studio</title>
+<title>QR Studio - Create QR Codes in Seconds</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Generate professional QR codes instantly. WiFi, URL, Contact, Location, and more. Free QR code generator with beautiful design.">
+<meta name="keywords" content="QR code, QR generator, WiFi QR, Contact QR, Location QR">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"></script>
+
 <style>
 
 *{
@@ -253,79 +260,256 @@ grid-template-columns:1fr;
 <body>
 
 <header>
+    <div class="logo">
+        <i class="fas fa-qrcode"></i> QR Studio
+    </div>
 
-<div class="logo">QR Studio</div>
-<div class="nav-toggle"><i class="fas fa-bars"></i></div>
-
-<nav>
-<a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-<a href="/register"><i class="fas fa-user-plus"></i> Register</a>
-<a href="/pricing"><i class="fas fa-tags"></i> Pricing</a>
-</nav>
-
+    <nav>
+        <a href="#features">Features</a>
+        <a href="/pricing">Pricing</a>
+        <a href="#about">About</a>
+        <a href="/login" class="btn-login">Login</a>
+        <a href="/register" class="btn-register">Sign Up</a>
+    </nav>
 </header>
 
 <section class="hero">
+    <h1>Create QR Codes <span style="background: linear-gradient(45deg, #4c7cff, #6d93ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Instantly</span></h1>
+    <p>Professional QR codes for URLs, WiFi, Contacts, Locations, Events, and much more. Customize with colors and logos. Export in multiple formats.</p>
+    
+    <div class="cta-buttons">
+        <a href="/dashboard" class="cta-button">
+            <i class="fas fa-play"></i> Start Creating Free
+        </a>
+        <a href="/pricing" class="cta-button secondary">
+            <i class="fas fa-crown"></i> Explore Plans
+        </a>
+    </div>
 
-<h1>Create Smart QR Codes</h1>
-
-<p>Generate beautiful, customizable QR codes instantly. From URLs to contacts, WiFi to locations – all in one place.</p>
-
-<a href="/dashboard">
-<button class="cta-button">Get Started <i class="fas fa-arrow-right"></i></button>
-</a>
-
+    <div style="margin-top: 60px; animation: fadeInUp 1.6s ease-out;">
+        <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; margin-bottom: 15px;">🚀 Trusted by 10,000+ users</p>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <span style="background: rgba(76, 124, 255, 0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem;">
+                <i class="fas fa-star" style="color: #ffd43b;"></i> 4.9/5 Stars
+            </span>
+            <span style="background: rgba(76, 124, 255, 0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem;">
+                <i class="fas fa-check"></i> 0 Ads Tracking
+            </span>
+            <span style="background: rgba(76, 124, 255, 0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem;">
+                <i class="fas fa-lock"></i> 100% Secure
+            </span>
+        </div>
+    </div>
 </section>
 
-<section class="features">
-
-<h2>Why Choose QR Studio?</h2>
-
-<div class="feature-grid">
-
-<div class="feature-card">
-<i class="fas fa-qrcode"></i>
-<h3>Multiple Types</h3>
-<p>Generate QR codes for URLs, WiFi, contacts, locations, and more.</p>
+<div class="ad-banner" style="max-width: 1200px; margin: 60px auto;">
+    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-bottom: 10px;">ADVERTISEMENT</p>
+    <div class="ad-space">
+        <p>Your advertisement here - <a href="#" style="color: #4c7cff; text-decoration: none;">Advertise with us</a></p>
+    </div>
 </div>
 
-<div class="feature-card">
-<i class="fas fa-palette"></i>
-<h3>Full Customization</h3>
-<p>Customize colors, add logos, and choose from multiple formats.</p>
+<section class="features" id="features">
+    <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 60px;">Powerful Features</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <i class="fas fa-globe"></i>
+            <h3>10+ QR Types</h3>
+            <p>URL, WiFi, Contact, Phone, Email, SMS, Text, Location, Events, and more.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-paint-brush"></i>
+            <h3>Full Customization</h3>
+            <p>Choose colors, add logos, adjust sizes, and customize every aspect of your QR codes.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-download"></i>
+            <h3>Multiple Formats</h3>
+            <p>Export as PNG, JPG, SVG, or PDF. Perfect for print or digital use.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-history"></i>
+            <h3>QR History</h3>
+            <p>Keep track of all QR codes you've created with our cloud history.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Analytics</h3>
+            <p>Track QR code downloads and get insights into your creations.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Mobile Ready</h3>
+            <p>Fully responsive. Create QR codes from any device, anytime.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-wifi"></i>
+            <h3>WiFi QR Codes</h3>
+            <p>Generate WiFi network QR codes for instant secure connection sharing.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Location Maps</h3>
+            <p>Create QR codes that open Google Maps to any address or coordinate.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>100% Secure</h3>
+            <p>Your data is encrypted and never stored without permission.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-user-secret"></i>
+            <h3>No Tracking</h3>
+            <p>We don't track users or sell data. Privacy first.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Lightning Fast</h3>
+            <p>Generate QR codes instantly with optimized algorithms.</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-infinity"></i>
+            <h3>Unlimited Creation</h3>
+            <p>Free users get unlimited QR codes. Pro features optional.</p>
+        </div>
+    </div>
+</section>
+
+<div class="ad-banner" style="max-width: 1200px; margin: 60px auto;">
+    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; margin-bottom: 10px;">SPONSORED CONTENT</p>
+    <div class="ad-space">
+        <p>Premium QR Code Services - <a href="#" style="color: #4c7cff; text-decoration: none;">Learn More</a></p>
+    </div>
 </div>
 
-<div class="feature-card">
-<i class="fas fa-mobile-alt"></i>
-<h3>Mobile Optimized</h3>
-<p>Responsive design that works perfectly on all devices.</p>
-</div>
+<section style="padding: 80px 40px;">
+    <h2 class="section-title">Simple Pricing</h2>
+    
+    <div style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+        <div class="card" style="text-align: center;">
+            <h3>Free</h3>
+            <div style="font-size: 2.5rem; color: #4c7cff; font-weight: bold; margin: 20px 0;">$0</div>
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">Perfect starter plan</p>
+            <ul style="list-style: none; margin-bottom: 20px;">
+                <li>✓ Unlimited QR codes</li>
+                <li>✓ Multiple formats</li>
+                <li>✓ Basic customization</li>
+                <li>✓ 10 QR history</li>
+            </ul>
+            <button style="width: 100%;">Get Started</button>
+        </div>
 
-<div class="feature-card">
-<i class="fas fa-download"></i>
-<h3>Easy Export</h3>
-<p>Download in PNG, JPG, SVG, or PDF formats instantly.</p>
-</div>
+        <div class="card" style="text-align: center; border: 2px solid #4c7cff;">
+            <div style="background: linear-gradient(45deg, #4c7cff, #6d93ff); color: white; padding: 10px 20px; border-radius: 20px; display: inline-block; margin-bottom: 15px; font-weight: 600;">POPULAR</div>
+            <h3>Pro</h3>
+            <div style="font-size: 2.5rem; color: #4c7cff; font-weight: bold; margin: 20px 0;">$5<span style="font-size: 1rem; color: rgba(255, 255, 255, 0.7);">/mo</span></div>
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">For power users</p>
+            <ul style="list-style: none; margin-bottom: 20px;">
+                <li>✓ Everything in Free</li>
+                <li>✓ Unlimited history</li>
+                <li>✓ Advanced analytics</li>
+                <li>✓ Priority support</li>
+            </ul>
+            <button style="width: 100%; background: linear-gradient(45deg, #4c7cff, #6d93ff);">Upgrade Now</button>
+        </div>
 
-</div>
+        <div class="card" style="text-align: center;">
+            <h3>Business</h3>
+            <div style="font-size: 2.5rem; color: #4c7cff; font-weight: bold; margin: 20px 0;">$15<span style="font-size: 1rem; color: rgba(255, 255, 255, 0.7);">/mo</span></div>
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">For enterprises</p>
+            <ul style="list-style: none; margin-bottom: 20px;">
+                <li>✓ Everything in Pro</li>
+                <li>✓ Team collaboration</li>
+                <li>✓ API access</li>
+                <li>✓ 24/7 support</li>
+            </ul>
+            <button style="width: 100%;">Contact Sales</button>
+        </div>
+    </div>
 
+    <p style="text-align: center; color: rgba(255, 255, 255, 0.6); margin-top: 40px;">
+        <a href="/pricing" style="color: #4c7cff; text-decoration: none;">View all pricing plans →</a>
+    </p>
+</section>
+
+<section style="padding: 80px 40px; background: linear-gradient(135deg, rgba(76, 124, 255, 0.1) 0%, rgba(107, 147, 255, 0.05) 100%); margin-top: 60px;">
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 class="section-title">Ready to Create QR Codes?</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 30px; color: rgba(255, 255, 255, 0.8);">
+            Join thousands of users generating beautiful QR codes. No credit card required.
+        </p>
+        <div class="cta-buttons">
+            <a href="/dashboard" class="cta-button">
+                <i class="fas fa-spark"></i> Get Started Free
+            </a>
+        </div>
+    </div>
 </section>
 
 <footer>
-<p>&copy; 2026 QR Studio V2 (BETA) - Made with <i class="fas fa-heart" style="color:#4c7cff;"></i> in India</p>
+    <div class="container">
+        <div>
+            <h4><i class="fas fa-qrcode"></i> QR Studio</h4>
+            <p style="margin-top: 15px; color: rgba(255, 255, 255, 0.7);">Create professional QR codes in seconds. Fast, secure, and free.</p>
+        </div>
+
+        <div>
+            <h4>Product</h4>
+            <a href="/">Home</a>
+            <a href="#features">Features</a>
+            <a href="/pricing">Pricing</a>
+            <a href="#about">About</a>
+        </div>
+
+        <div>
+            <h4>Company</h4>
+            <a href="/">Blog</a>
+            <a href="/">Security</a>
+            <a href="/">Privacy</a>
+            <a href="/">Terms</a>
+        </div>
+
+        <div>
+            <h4>Follow Us</h4>
+            <div style="display: flex; gap: 15px; margin-top: 15px;">
+                <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(76, 124, 255, 0.2); border-radius: 50%; text-align: center; line-height: 40px; color: white;">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(76, 124, 255, 0.2); border-radius: 50%; text-align: center; line-height: 40px; color: white;">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(76, 124, 255, 0.2); border-radius: 50%; text-align: center; line-height: 40px; color: white;">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 QR Studio V2 - Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> in India|
+        <a href="#" style="color: #4c7cff;">Privacy Policy</a> |
+        <a href="#" style="color: #4c7cff;">Terms of Service</a></p>
+    </div>
 </footer>
 
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 <script>
-// mobile nav toggle
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('nav');
-navToggle && navToggle.addEventListener('click', () => {
-    if (navMenu.style.display === 'flex') {
-        navMenu.style.display = 'none';
-    } else {
-        navMenu.style.display = 'flex';
-    }
-});
+// Analytics and tracking
+if (typeof gtag !== 'undefined') {
+    gtag('event', 'page_view');
+}
 </script>
 
 </body>
