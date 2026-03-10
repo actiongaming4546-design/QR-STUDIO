@@ -18,10 +18,24 @@ from models import db, User, QRCode
 from qrcode.image.svg import SvgImage
 from datetime import datetime
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key'  # Change in production
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///qr_studio.db'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this-in-production')
+
+# Database configuration for Render and local deployment
+database_url = os.getenv('DATABASE_URL')
+if database_url:
+    # For Render with PostgreSQL
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+else:
+    # For local development with SQLite
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///qr_studio.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size

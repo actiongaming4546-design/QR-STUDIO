@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: qr-generator
+    runtime: python
+    pythonVersion: 3.11
+    
+    # Build command
+    buildCommand: pip install -r requirements.txt
+    
+    # Start command - Gunicorn with proper worker configuration
+    startCommand: gunicorn --workers 4 --worker-class sync --bind 0.0.0.0:$PORT app:app
+    
+    # Environment variables
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+    
+    # Connect PostgreSQL database
+    databases:
+      - name: qr_studio_db
+        databaseName: qr_studio_db
+        user: qr_studio_user
+    
+    # Health check
+    healthCheckPath: /
+    
+    # Auto-deploy on push
+    autoDeploy: true
+    
+    # Region
+    region: oregon
