@@ -8,6 +8,17 @@
 
 <style>
 
+.beta-banner {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-bottom: 2px solid #ff5252;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
 body{
 margin:0;
 font-family:Arial;
@@ -62,27 +73,127 @@ text-align:center;
 .tabs {
     display: flex;
     margin-bottom: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 2px solid #4c7cff;
+    flex-wrap: wrap;
+}
+
+.tabs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tabs::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    background: #4c7cff;
+    border-radius: 10px;
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+    background: #6d93ff;
 }
 
 .tab-button {
-    background: #151823;
-    border: none;
+    background: linear-gradient(135deg, #1b1f2b 0%, #151823 100%);
+    border: 2px solid rgba(76, 124, 255, 0.3);
     color: white;
-    padding: 10px 20px;
+    padding: 12px 16px;
     cursor: pointer;
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    background: linear-gradient(135deg, #4c7cff 0%, #6d93ff 100%);
+    border-color: #4c7cff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(76, 124, 255, 0.3);
 }
 
 .tab-button.active {
-    background: #1b1f2b;
+    background: linear-gradient(135deg, #4c7cff 0%, #6d93ff 100%);
+    border-color: #4c7cff;
+    box-shadow: 0 8px 20px rgba(76, 124, 255, 0.4);
+    transform: scale(1.05);
 }
 
 .tab-content {
     display: none;
+    animation: fadeIn 0.3s ease-in;
 }
 
 .tab-content.active {
     display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ad-banner {
+    background: linear-gradient(135deg, rgba(76, 124, 255, 0.1) 0%, rgba(109, 147, 255, 0.1) 100%);
+    border: 2px dashed rgba(76, 124, 255, 0.4);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+.ad-banner a {
+    color: #4c7cff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.ad-banner a:hover {
+    color: #6d93ff;
+    text-decoration: underline;
+}
+
+button {
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(76, 124, 255, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -136,6 +247,10 @@ text-align:center;
 
 <h2><i class="fas fa-qrcode"></i> Create QR Code</h2>
 
+<div class="ad-banner">
+    <p style="margin: 0;"><i class="fas fa-star" style="color: #ffd43b;"></i> <strong>Pro Tip:</strong> Use different QR types for different purposes - URLs for marketing, WiFi for events, Orders for food delivery, and more! <a href="/features">Learn More</a></p>
+</div>
+
 <div class="tabs">
     <button class="tab-button active" onclick="showTab('url')"><i class="fas fa-link"></i> URL</button>
     <button class="tab-button" onclick="showTab('wifi')"><i class="fas fa-wifi"></i> WiFi</button>
@@ -144,6 +259,13 @@ text-align:center;
     <button class="tab-button" onclick="showTab('email')"><i class="fas fa-envelope"></i> Email</button>
     <button class="tab-button" onclick="showTab('contact')"><i class="fas fa-user"></i> Contact</button>
     <button class="tab-button" onclick="showTab('location')"><i class="fas fa-map-marker-alt"></i> Location</button>
+    <button class="tab-button" onclick="showTab('payment')"><i class="fas fa-credit-card"></i> Payment ID</button>
+    <button class="tab-button" onclick="showTab('order')"><i class="fas fa-receipt"></i> Order #</button>
+    <button class="tab-button" onclick="showTab('tracking')"><i class="fas fa-box"></i> Tracking</button>
+    <button class="tab-button" onclick="showTab('invoice')"><i class="fas fa-file-invoice"></i> Invoice</button>
+    <button class="tab-button" onclick="showTab('product')"><i class="fas fa-barcode"></i> Product</button>
+    <button class="tab-button" onclick="showTab('coupon')"><i class="fas fa-tag"></i> Coupon</button>
+    <button class="tab-button" onclick="showTab('appointment')"><i class="fas fa-calendar"></i> Appointment</button>
 </div>
 
 <form id="qrForm" method="POST" action="/generate" enctype="multipart/form-data">
@@ -208,6 +330,94 @@ text-align:center;
         </div>
     </div>
 
+    <div id="payment" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-credit-card"></i> Payment ID</label>
+            <input name="payment_id" placeholder="PAY-123456789">
+            <label><i class="fas fa-dollar-sign"></i> Amount (optional)</label>
+            <input name="payment_amount" placeholder="$100.00">
+            <label><i class="fas fa-info-circle"></i> Description (optional)</label>
+            <input name="payment_desc" placeholder="Order Payment">
+        </div>
+    </div>
+
+    <div id="order" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-receipt"></i> Order Number</label>
+            <input name="order_number" placeholder="ORD-2024-001234">
+            <label><i class="fas fa-calendar"></i> Order Date (optional)</label>
+            <input name="order_date" placeholder="2024-03-10" type="date">
+            <label><i class="fas fa-info-circle"></i> Details (optional)</label>
+            <input name="order_details" placeholder="Food Order / Store Name">
+        </div>
+    </div>
+
+    <div id="tracking" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-box"></i> Tracking Number</label>
+            <input name="tracking_number" placeholder="TRACK-123456789">
+            <label><i class="fas fa-truck"></i> Carrier (optional)</label>
+            <select name="carrier">
+                <option value="">Select Carrier</option>
+                <option value="DHL">DHL</option>
+                <option value="FedEx">FedEx</option>
+                <option value="UPS">UPS</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Other">Other</option>
+            </select>
+            <label><i class="fas fa-info-circle"></i> Description (optional)</label>
+            <input name="tracking_desc" placeholder="Package tracking info">
+        </div>
+    </div>
+
+    <div id="invoice" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-file-invoice"></i> Invoice Number</label>
+            <input name="invoice_number" placeholder="INV-2024-001">
+            <label><i class="fas fa-calendar"></i> Invoice Date (optional)</label>
+            <input name="invoice_date" placeholder="2024-03-10" type="date">
+            <label><i class="fas fa-dollar-sign"></i> Amount (optional)</label>
+            <input name="invoice_amount" placeholder="$500.00">
+        </div>
+    </div>
+
+    <div id="product" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-barcode"></i> Product Code / SKU</label>
+            <input name="product_code" placeholder="SKU-987654321">
+            <label><i class="fas fa-tag"></i> Product Name (optional)</label>
+            <input name="product_name" placeholder="Product Name">
+            <label><i class="fas fa-info-circle"></i> Details (optional)</label>
+            <input name="product_details" placeholder="Brand, Model, etc.">
+        </div>
+    </div>
+
+    <div id="coupon" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-tag"></i> Coupon Code</label>
+            <input name="coupon_code" placeholder="SAVE20">
+            <label><i class="fas fa-percentage"></i> Discount (optional)</label>
+            <input name="coupon_discount" placeholder="20% OFF" type="text">
+            <label><i class="fas fa-calendar"></i> Expiry Date (optional)</label>
+            <input name="coupon_expiry" placeholder="2024-12-31" type="date">
+        </div>
+    </div>
+
+    <div id="appointment" class="tab-content">
+        <div class="card">
+            <label><i class="fas fa-calendar"></i> Appointment Date & Time</label>
+            <input name="appointment_datetime" placeholder="2024-03-15 2:30 PM" type="datetime-local">
+            <label><i class="fas fa-user"></i> Service Provider (optional)</label>
+            <input name="appointment_provider" placeholder="Dr. John Doe / Salon Name">
+            <label><i class="fas fa-info-circle"></i> Service Type (optional)</label>
+            <input name="appointment_service" placeholder="Haircut / Medical Checkup">
+        </div>
+    </div>
+
+    <div class="ad-banner">
+        <p style="margin: 0;"><i class="fas fa-gift" style="color: #ffd43b;"></i> <strong>Upgrade to Pro:</strong> Get custom colors, logo embedding, and unlimited downloads! <a href="/pricing">View Plans</a></p>
+    </div>
+
     <div class="card">
         <h3><i class="fas fa-palette"></i> Customization</h3>
         <label><i class="fas fa-image"></i> Logo (optional)</label>
@@ -227,6 +437,10 @@ text-align:center;
 <div id="preview" class="card" style="display:none;">
     <h3><i class="fas fa-image"></i> Preview</h3>
     <img id="qrPreview" src="" alt="QR Code Preview">
+</div>
+
+<div class="ad-banner">
+    <p style="margin: 0;"><i class="fas fa-question-circle" style="color: #4c7cff;"></i> Need help? Check out our <a href="/features">features guide</a> or visit the <a href="/about">about page</a> for more info!</p>
 </div>
 
 </div>

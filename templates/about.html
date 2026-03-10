@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - QR Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .navbar a:hover {
+            opacity: 0.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+        }
+        
+        .content-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        
+        .content-card h2 {
+            color: #667eea;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .content-card h2:first-child {
+            margin-top: 0;
+        }
+        
+        .content-card p {
+            margin: 1rem 0;
+        }
+        
+        .content-card ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-card li {
+            margin: 0.5rem 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-member {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .team-member h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white; padding: 12px 20px; text-align: center; font-weight: 600; font-size: 0.95rem; border-bottom: 2px solid #ff5252; box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);">
+        <i class="fas fa-flask-vial" style="margin-right: 8px;"></i> BETA - This website is not yet released
+    </div>
+    <nav class="navbar">
+        <div style="color: white; font-size: 1.5rem; font-weight: bold;">QR Generator</div>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('pricing') }}">Pricing</a>
+            <a href="{{ url_for('features') }}">Features</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>📖 About Us</h1>
+        
+        <div class="content-card">
+            <h2>🎯 Our Mission</h2>
+            <p>
+                At QR Generator, our mission is to make QR code creation simple, powerful, and accessible to everyone. 
+                We believe that QR codes are a powerful bridge between the physical and digital worlds, and we're 
+                committed to providing the best tools to leverage their potential.
+            </p>
+            <p>
+                Whether you're a small business owner, marketer, event organizer, or developer, our platform 
+                empowers you to create professional QR codes in seconds without any technical knowledge.
+            </p>
+        </div>
+        
+        <div class="content-card">
+            <h2>✨ Why Choose QR Generator?</h2>
+            <ul>
+                <li><strong>Easy to Use:</strong> Generate QR codes with just a few clicks</li>
+                <li><strong>Versatile:</strong> Support for 9+ QR code types covering all common use cases</li>
+                <li><strong>Customizable:</strong> Choose colors, formats, and add your logo</li>
+                <li><strong>Secure:</strong> Your data is encrypted and securely stored</li>
+                <li><strong>Free & Paid Plans:</strong> Start for free and upgrade when you need advanced features</li>
+                <li><strong>Export Options:</strong> Download in PNG, JPG, PDF, or SVG formats</li>
+                <li><strong>Analytics:</strong> Track your QR codes and monitor performance</li>
+            </ul>
+        </div>
+        
+        <div class="content-card">
+            <h2>🚀 What We Offer</h2>
+            <p>
+                QR Generator is a comprehensive platform for creating, managing, and tracking QR codes. We provide:
+            </p>
+            <ul>
+                <li><strong>Instant QR Code Generation:</strong> Create QR codes for any purpose in real-time</li>
+                <li><strong>Account Management:</strong> Save your generated QR codes and access them anytime</li>
+                <li><strong>Customization Tools:</strong> Personalize your QR codes with colors and logos</li>
+                <li><strong>Smart Geocoding:</strong> Convert addresses to coordinates for location QR codes</li>
+                <li><strong>Flexible Export:</strong> Download in your preferred format</li>
+                <li><strong>Usage Statistics:</strong> Track downloads and QR code performance</li>
+            </ul>
+        </div>
+        
+        <div class="content-card">
+            <h2>🌍 Use Cases</h2>
+            <ul>
+                <li><strong>Marketing & Advertising:</strong> Direct customers to your website or social media</li>
+                <li><strong>Events:</strong> Create QR codes for event registration and check-ins</li>
+                <li><strong>Retail:</strong> Link products to reviews, details, or promotions</li>
+                <li><strong>WiFi Networks:</strong> Share WiFi access with guests easily</li>
+                <li><strong>Contact Sharing:</strong> Exchange contact information instantly</li>
+                <li><strong>Navigation:</strong> Direct people to specific locations</li>
+                <li><strong>Business Cards:</strong> Add QR codes to make cards interactive</li>
+                <li><strong>SMS Campaigns:</strong> Initiate text messages with pre-filled content</li>
+            </ul>
+        </div>
+        
+        <div class="content-card">
+            <h2>👥 Our Team</h2>
+            <p>
+                We're a passionate team of developers, designers, and entrepreneurs dedicated to making 
+                QR code technology accessible and powerful for everyone.
+            </p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="icon">👨‍💻</div>
+                    <h3>Developers</h3>
+                    <p>Building robust QR generation technology</p>
+                </div>
+                <div class="team-member">
+                    <div class="icon">🎨</div>
+                    <h3>Designers</h3>
+                    <p>Creating beautiful and intuitive interfaces</p>
+                </div>
+                <div class="team-member">
+                    <div class="icon">📊</div>
+                    <h3>Product Team</h3>
+                    <p>Continuously improving your experience</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-card">
+            <h2>📞 Contact & Support</h2>
+            <p>
+                Have questions or need assistance? We'd love to hear from you! 
+                Our support team is here to help you get the most out of QR Generator.
+            </p>
+            <ul>
+                <li><strong>Email:</strong> support@qrgenerator.com</li>
+                <li><strong>Twitter:</strong> @QRGenerator</li>
+                <li><strong>GitHub:</strong> github.com/qrgenerator</li>
+            </ul>
+            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('register') }}" class="cta-button">
+                {% if current_user.is_authenticated %}
+                    Create QR Codes
+                {% else %}
+                    Get Started Free
+                {% endif %}
+            </a>
+        </div>
+        
+        <div class="content-card">
+            <h2>📜 License & Legal</h2>
+            <p>
+                QR Generator is built on top of open-source technologies. We respect all licenses 
+                and give credit to the amazing open-source community that makes this project possible.
+            </p>
+            <ul>
+                <li>Uses <strong>qrcode</strong> library for QR code generation</li>
+                <li>Built with <strong>Flask</strong> and <strong>SQLAlchemy</strong></li>
+                <li>Protected by <strong>SSL/TLS encryption</strong></li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 QR Generator. All rights reserved.</p>
+    </footer>
+</body>
+</html>

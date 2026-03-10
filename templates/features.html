@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - QR Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .navbar a:hover {
+            opacity: 0.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h2 {
+            color: #667eea;
+            margin: 1rem 0;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .features-list {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features-list h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-item-icon {
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            color: #667eea;
+        }
+        
+        .feature-item-text h3 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .feature-item-text p {
+            margin: 0.5rem 0 0;
+            color: #666;
+        }
+        
+        .cta-button {
+            display: block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 2rem;
+            transition: transform 0.3s;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white; padding: 12px 20px; text-align: center; font-weight: 600; font-size: 0.95rem; border-bottom: 2px solid #ff5252; box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);">
+        <i class="fas fa-flask-vial" style="margin-right: 8px;"></i> BETA - This website is not yet released
+    </div>
+    <nav class="navbar">
+        <div style="color: white; font-size: 1.5rem; font-weight: bold;">QR Generator</div>
+        <div>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('pricing') }}">Pricing</a>
+            <a href="{{ url_for('about') }}">About</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>✨ Features</h1>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h2>Multiple QR Types</h2>
+                <p>Generate QR codes for URLs, text, WiFi, phone numbers, SMS, emails, contacts, locations, and events.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h2>Custom Colors</h2>
+                <p>Customize foreground and background colors to match your brand identity.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🖼️</div>
+                <h2>Logo Integration</h2>
+                <p>Add your custom logo to the center of QR codes for better branding.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📥</div>
+                <h2>Multiple Formats</h2>
+                <p>Download QR codes in PNG, JPG, PDF, or SVG formats for maximum flexibility.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">👤</div>
+                <h2>User Accounts</h2>
+                <p>Create an account to save your QR code history and track your generated codes.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h2>Analytics</h2>
+                <p>View statistics about your QR codes and track download counts.</p>
+            </div>
+        </div>
+        
+        <div class="features-list">
+            <h2>All Available QR Code Types</h2>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">🌐</div>
+                <div class="feature-item-text">
+                    <h3>URL QR Codes</h3>
+                    <p>Link to websites and web pages. Perfect for marketing campaigns and print materials.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">✏️</div>
+                <div class="feature-item-text">
+                    <h3>Text QR Codes</h3>
+                    <p>Encode any plain text message or data for easy sharing.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">📶</div>
+                <div class="feature-item-text">
+                    <h3>WiFi QR Codes</h3>
+                    <p>Create WiFi connection QR codes for seamless network access. Supports WEP, WPA, and Open networks.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">📞</div>
+                <div class="feature-item-text">
+                    <h3>Phone QR Codes</h3>
+                    <p>Generate QR codes that open phone dialing interface with pre-filled numbers.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">💬</div>
+                <div class="feature-item-text">
+                    <h3>SMS QR Codes</h3>
+                    <p>Create QR codes that initiate SMS messages to specific phone numbers.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">📧</div>
+                <div class="feature-item-text">
+                    <h3>Email QR Codes</h3>
+                    <p>Generate QR codes that open email composition with pre-filled addresses.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">👥</div>
+                <div class="feature-item-text">
+                    <h3>Contact QR Codes</h3>
+                    <p>Create vCard format QR codes for easy contact information sharing.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">📍</div>
+                <div class="feature-item-text">
+                    <h3>Location QR Codes</h3>
+                    <p>Generate QR codes that link to Google Maps with specific coordinates.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-item-icon">📅</div>
+                <div class="feature-item-text">
+                    <h3>Event QR Codes</h3>
+                    <p>Create QR codes for calendar events with date, time, and location details.</p>
+                </div>
+            </div>
+        </div>
+        
+        <button class="cta-button" onclick="window.location.href='{{ url_for('dashboard') if current_user.is_authenticated else url_for('register') }}'">
+            {% if current_user.is_authenticated %}
+                Start Creating
+            {% else %}
+                Get Started Free
+            {% endif %}
+        </button>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 QR Generator. All rights reserved.</p>
+    </footer>
+</body>
+</html>

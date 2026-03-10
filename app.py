@@ -178,8 +178,7 @@ def generate_qr_code(data, format_type='png', fg_color='#000000', bg_color='#FFF
             image_data = base64.b64encode(buf.getvalue()).decode()
             return {
                 'image': f"data:{mime};base64,{image_data}",
-                'mime': mime,
-                'buffer': buf
+                'mime': mime
             }
     except Exception as e:
         logging.error(f"QR Generation error: {e}")
@@ -269,6 +268,55 @@ def preview():
             if not ssid:
                 return jsonify({'error': 'SSID is required'})
             data = f"WIFI:S:{ssid};T:{encryption};P:{password};H:{'true' if hidden else 'false'};;"
+        elif qr_type == 'payment':
+            payment_id = request.form.get('payment_id', '').strip()
+            if not payment_id:
+                return jsonify({'error': 'Payment ID is required'})
+            amount = request.form.get('payment_amount', '').strip()
+            desc = request.form.get('payment_desc', '').strip()
+            data = f"PAYMENT_ID:{payment_id}\nAMOUNT:{amount}\nDESC:{desc}"
+        elif qr_type == 'order':
+            order_number = request.form.get('order_number', '').strip()
+            if not order_number:
+                return jsonify({'error': 'Order number is required'})
+            order_date = request.form.get('order_date', '').strip()
+            order_details = request.form.get('order_details', '').strip()
+            data = f"ORDER:{order_number}\nDATE:{order_date}\nDETAILS:{order_details}"
+        elif qr_type == 'tracking':
+            tracking_number = request.form.get('tracking_number', '').strip()
+            if not tracking_number:
+                return jsonify({'error': 'Tracking number is required'})
+            carrier = request.form.get('carrier', '').strip()
+            tracking_desc = request.form.get('tracking_desc', '').strip()
+            data = f"TRACKING:{tracking_number}\nCARRIER:{carrier}\nDESC:{tracking_desc}"
+        elif qr_type == 'invoice':
+            invoice_number = request.form.get('invoice_number', '').strip()
+            if not invoice_number:
+                return jsonify({'error': 'Invoice number is required'})
+            invoice_date = request.form.get('invoice_date', '').strip()
+            invoice_amount = request.form.get('invoice_amount', '').strip()
+            data = f"INVOICE:{invoice_number}\nDATE:{invoice_date}\nAMOUNT:{invoice_amount}"
+        elif qr_type == 'product':
+            product_code = request.form.get('product_code', '').strip()
+            if not product_code:
+                return jsonify({'error': 'Product code is required'})
+            product_name = request.form.get('product_name', '').strip()
+            product_details = request.form.get('product_details', '').strip()
+            data = f"PRODUCT:{product_code}\nNAME:{product_name}\nDETAILS:{product_details}"
+        elif qr_type == 'coupon':
+            coupon_code = request.form.get('coupon_code', '').strip()
+            if not coupon_code:
+                return jsonify({'error': 'Coupon code is required'})
+            coupon_discount = request.form.get('coupon_discount', '').strip()
+            coupon_expiry = request.form.get('coupon_expiry', '').strip()
+            data = f"COUPON:{coupon_code}\nDISCOUNT:{coupon_discount}\nEXPIRY:{coupon_expiry}"
+        elif qr_type == 'appointment':
+            appointment_datetime = request.form.get('appointment_datetime', '').strip()
+            if not appointment_datetime:
+                return jsonify({'error': 'Appointment date and time is required'})
+            provider = request.form.get('appointment_provider', '').strip()
+            service = request.form.get('appointment_service', '').strip()
+            data = f"APPOINTMENT:{appointment_datetime}\nPROVIDER:{provider}\nSERVICE:{service}"
         else:
             return jsonify({'error': 'Unknown QR type'})
 
@@ -333,6 +381,55 @@ def generate():
                 data = f"https://maps.google.com?q={location.latitude},{location.longitude}"
             else:
                 return jsonify({'error': 'Location not found'})
+        elif qr_type == 'payment':
+            payment_id = request.form.get('payment_id', '').strip()
+            if not payment_id:
+                return jsonify({'error': 'Payment ID is required'})
+            amount = request.form.get('payment_amount', '').strip()
+            desc = request.form.get('payment_desc', '').strip()
+            data = f"PAYMENT_ID:{payment_id}\nAMOUNT:{amount}\nDESC:{desc}"
+        elif qr_type == 'order':
+            order_number = request.form.get('order_number', '').strip()
+            if not order_number:
+                return jsonify({'error': 'Order number is required'})
+            order_date = request.form.get('order_date', '').strip()
+            order_details = request.form.get('order_details', '').strip()
+            data = f"ORDER:{order_number}\nDATE:{order_date}\nDETAILS:{order_details}"
+        elif qr_type == 'tracking':
+            tracking_number = request.form.get('tracking_number', '').strip()
+            if not tracking_number:
+                return jsonify({'error': 'Tracking number is required'})
+            carrier = request.form.get('carrier', '').strip()
+            tracking_desc = request.form.get('tracking_desc', '').strip()
+            data = f"TRACKING:{tracking_number}\nCARRIER:{carrier}\nDESC:{tracking_desc}"
+        elif qr_type == 'invoice':
+            invoice_number = request.form.get('invoice_number', '').strip()
+            if not invoice_number:
+                return jsonify({'error': 'Invoice number is required'})
+            invoice_date = request.form.get('invoice_date', '').strip()
+            invoice_amount = request.form.get('invoice_amount', '').strip()
+            data = f"INVOICE:{invoice_number}\nDATE:{invoice_date}\nAMOUNT:{invoice_amount}"
+        elif qr_type == 'product':
+            product_code = request.form.get('product_code', '').strip()
+            if not product_code:
+                return jsonify({'error': 'Product code is required'})
+            product_name = request.form.get('product_name', '').strip()
+            product_details = request.form.get('product_details', '').strip()
+            data = f"PRODUCT:{product_code}\nNAME:{product_name}\nDETAILS:{product_details}"
+        elif qr_type == 'coupon':
+            coupon_code = request.form.get('coupon_code', '').strip()
+            if not coupon_code:
+                return jsonify({'error': 'Coupon code is required'})
+            coupon_discount = request.form.get('coupon_discount', '').strip()
+            coupon_expiry = request.form.get('coupon_expiry', '').strip()
+            data = f"COUPON:{coupon_code}\nDISCOUNT:{coupon_discount}\nEXPIRY:{coupon_expiry}"
+        elif qr_type == 'appointment':
+            appointment_datetime = request.form.get('appointment_datetime', '').strip()
+            if not appointment_datetime:
+                return jsonify({'error': 'Appointment date and time is required'})
+            provider = request.form.get('appointment_provider', '').strip()
+            service = request.form.get('appointment_service', '').strip()
+            data = f"APPOINTMENT:{appointment_datetime}\nPROVIDER:{provider}\nSERVICE:{service}"
 
         if not data:
             return jsonify({'error': 'Invalid data'})
@@ -419,6 +516,16 @@ def features():
 def about():
     return render_template("about.html")
 
+@app.route("/checkout-pro")
+@login_required
+def pro():
+    return render_template("pricing.html")
+
+@app.route("/checkout-business")
+@login_required
+def business():
+    return render_template("pricing.html")
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template("404.html"), 404
@@ -426,21 +533,6 @@ def not_found(error):
 @app.errorhandler(500)
 def server_error(error):
     return render_template("500.html"), 500
-
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
-
-@app.route("/checkout-pro")
-@login_required
-def pro():
-    return "<h1>Pro plan coming soon</h1>"
-
-@app.route("/checkout-business")
-@login_required
-def business():
-    return "<h1>Business plan coming soon</h1>"
 
 if __name__ == "__main__":
     with app.app_context():

@@ -13,10 +13,28 @@ background: linear-gradient(135deg, #0f1117 0%, #1a1d29 100%);
 font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 color:white;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 margin:0;
+padding-top:50px;
+}
+
+.beta-banner {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-bottom: 2px solid #ff5252;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .card{
@@ -150,6 +168,10 @@ button {
 </head>
 
 <body>
+
+<div class="beta-banner">
+    <i class="fas fa-flask-vial" style="margin-right: 8px;"></i> BETA - This website is not yet released
+</div>
 
 <div class="card">
 
