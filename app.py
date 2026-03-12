@@ -1,8 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file, jsonify
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, FileField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from flask import Flask, render_template, request, send_file, jsonify
 import qrcode
 from PIL import Image, ImageDraw
 import io
@@ -44,75 +40,38 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 db.init_app(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
 logging.basicConfig(level=logging.INFO)
 
-@login_manager.user_loader
-def load_user(user_id):
-    return db.session.get(User, int(user_id))
+def get_default_user():
+    """
+    Authentication has been removed. To keep QR history/analytics working,
+    we store everything under a single auto-created 'default' user.
+    """
+    user = User.query.first()
+    if user:
+        return user
 
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
-
-class RegisterForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
-    submit = SubmitField('Register')
+    # Create a deterministic local user record.
+    user = User(email=os.getenv("DEFAULT_USER_EMAIL", "default@qr-studio.local"))
+    user.set_password(os.getenv("DEFAULT_USER_PASSWORD", "change-me"))
+    db.session.add(user)
+    db.session.commit()
+    return user
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            flash('Email already registered.', 'error')
-            return redirect(url_for('register'))
-        new_user = User(email=form.email.data)
-        new_user.set_password(form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Registration successful! Please log in.', 'success')
-        return redirect(url_for('login'))
-    return render_template("register.html", form=form)
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and user.check_password(form.password.data):
-            login_user(user)
-            flash('Welcome back!', 'success')
-            return redirect(url_for('dashboard'))
-        flash('Invalid email or password.', 'error')
-    return render_template("login.html", form=form)
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    flash('You have been logged out.', 'success')
-    return redirect(url_for('home'))
-
 @app.route("/dashboard")
-@login_required
 def dashboard():
+    user = get_default_user()
     user_stats = {
-        'total_qrcodes': current_user.qr_codes_created,
-        'total_history': len(current_user.qr_history),
-        'plan': current_user.plan.upper()
+        'total_qrcodes': user.qr_codes_created,
+        'total_history': len(user.qr_history),
+        'plan': user.plan.upper()
     }
-    recent_qrs = QRCode.query.filter_by(user_id=current_user.id).order_by(QRCode.created_at.desc()).limit(10).all()
+    recent_qrs = QRCode.query.filter_by(user_id=user.id).order_by(QRCode.created_at.desc()).limit(10).all()
     return render_template("dashboard.html", stats=user_stats, recent_qrs=recent_qrs)
 
 def geocode_location_safe(address, retries=3):
@@ -199,7 +158,6 @@ def generate_qr_code(data, format_type='png', fg_color='#000000', bg_color='#FFF
         return None
 
 @app.route("/preview", methods=['POST'])
-@login_required
 def preview():
     """Preview QR code before downloading"""
     qr_type = request.form.get('type', '').strip()
@@ -348,9 +306,9 @@ def preview():
         return jsonify({'error': f'Error: {str(e)}'})
 
 @app.route("/generate", methods=['POST'])
-@login_required
 def generate():
     """Generate and download QR code"""
+    user = get_default_user()
     qr_type = request.form.get('type', '').strip()
     format_type = request.form.get('format', 'png').strip()
     title = request.form.get('title', f'QR-{datetime.now().strftime("%Y%m%d%H%M%S")}').strip()
@@ -452,7 +410,7 @@ def generate():
         if result:
             # Save to database
             qr_record = QRCode(
-                user_id=current_user.id,
+                user_id=user.id,
                 qr_type=qr_type,
                 data=data,
                 format_type=format_type,
@@ -460,7 +418,7 @@ def generate():
                 filename=f"{title}.{format_type}"
             )
             db.session.add(qr_record)
-            current_user.qr_codes_created += 1
+            user.qr_codes_created += 1
             db.session.commit()
 
             if 'buffer' in result:
@@ -480,11 +438,11 @@ def generate():
         return jsonify({'error': f'Error: {str(e)}'})
 
 @app.route("/qr-history")
-@login_required
 def qr_history():
     """Get user's QR code history"""
+    user = get_default_user()
     page = request.args.get('page', 1, type=int)
-    qrs = QRCode.query.filter_by(user_id=current_user.id).order_by(QRCode.created_at.desc()).paginate(page=page, per_page=20)
+    qrs = QRCode.query.filter_by(user_id=user.id).order_by(QRCode.created_at.desc()).paginate(page=page, per_page=20)
     return jsonify({
         'qrs': [qr.to_dict() for qr in qrs.items],
         'total': qrs.total,
@@ -492,28 +450,28 @@ def qr_history():
     })
 
 @app.route("/qr-stats")
-@login_required
 def qr_stats():
     """Get user statistics"""
-    total_qrs = current_user.qr_codes_created
-    type_counts = db.session.query(QRCode.qr_type, db.func.count()).filter_by(user_id=current_user.id).group_by(QRCode.qr_type).all()
-    format_counts = db.session.query(QRCode.format_type, db.func.count()).filter_by(user_id=current_user.id).group_by(QRCode.format_type).all()
+    user = get_default_user()
+    total_qrs = user.qr_codes_created
+    type_counts = db.session.query(QRCode.qr_type, db.func.count()).filter_by(user_id=user.id).group_by(QRCode.qr_type).all()
+    format_counts = db.session.query(QRCode.format_type, db.func.count()).filter_by(user_id=user.id).group_by(QRCode.format_type).all()
     
     return jsonify({
         'total': total_qrs,
         'by_type': dict(type_counts),
         'by_format': dict(format_counts),
-        'plan': current_user.plan
+        'plan': user.plan
     })
 
 @app.route("/delete-qr/<int:qr_id>", methods=['DELETE'])
-@login_required
 def delete_qr(qr_id):
     """Delete a QR code record"""
-    qr = QRCode.query.filter_by(id=qr_id, user_id=current_user.id).first()
+    user = get_default_user()
+    qr = QRCode.query.filter_by(id=qr_id, user_id=user.id).first()
     if qr:
         db.session.delete(qr)
-        current_user.qr_codes_created = max(0, current_user.qr_codes_created - 1)
+        user.qr_codes_created = max(0, user.qr_codes_created - 1)
         db.session.commit()
         return jsonify({'success': True})
     return jsonify({'error': 'QR code not found'}), 404
@@ -531,12 +489,10 @@ def about():
     return render_template("about.html")
 
 @app.route("/checkout-pro")
-@login_required
 def pro():
     return render_template("pricing.html")
 
 @app.route("/checkout-business")
-@login_required
 def business():
     return render_template("pricing.html")
 

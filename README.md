@@ -53,7 +53,6 @@ See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for detailed instructions.
 ✨ Custom colors (foreground & background)  
 🖼️ Logo embedding  
 📥 Multiple export formats (PNG, JPG, PDF, SVG)  
-👤 User accounts with authentication  
 📊 QR code history and statistics  
 🎨 Beautiful, responsive UI  
 ⚡ Fast generation  
@@ -164,7 +163,7 @@ See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for complete instructions.
 |-------|----------|
 | Pages not loading | Ensure `static/` and `templates/` dirs are tracked in git |
 | Database errors | Check `DATABASE_URL` is set correctly (use Internal URL on Render) |
-| Login fails | Verify PostgreSQL is running and database initialized |
+| Dashboard not loading | Verify the database is initialized and reachable |
 | Static files missing | Run `git add -A && git commit` to track files |
 | Blank pages | Check Render logs for Flask errors |
 
@@ -175,17 +174,15 @@ See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for complete instructions.
 | Route | Method | Auth | Description |
 |-------|--------|------|-------------|
 | `/` | GET | No | Homepage |
-| `/register` | POST | No | User registration |
-| `/login` | POST | No | User login |
-| `/dashboard` | GET | Yes | QR creation dashboard |
-| `/preview` | POST | Yes | Preview QR code |
-| `/generate` | POST | Yes | Generate & download QR |
+| `/dashboard` | GET | No | QR creation dashboard |
+| `/preview` | POST | No | Preview QR code |
+| `/generate` | POST | No | Generate & download QR |
 | `/pricing` | GET | No | Pricing page |
 | `/features` | GET | No | Features page |
 | `/about` | GET | No | About page |
-| `/qr-history` | GET | Yes | User's QR history |
-| `/qr-stats` | GET | Yes | Usage statistics |
-| `/delete-qr/<id>` | DELETE | Yes | Delete QR code |
+| `/qr-history` | GET | No | QR history |
+| `/qr-stats` | GET | No | Usage statistics |
+| `/delete-qr/<id>` | DELETE | No | Delete QR code |
 
 ---
 

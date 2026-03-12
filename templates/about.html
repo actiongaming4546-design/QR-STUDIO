@@ -150,13 +150,7 @@
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('pricing') }}">Pricing</a>
             <a href="{{ url_for('features') }}">Features</a>
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register</a>
-            {% endif %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
         </div>
     </nav>
     
@@ -254,13 +248,7 @@
                 <li><strong>Twitter:</strong> @QRGenerator</li>
                 <li><strong>GitHub:</strong> github.com/qrgenerator</li>
             </ul>
-            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('register') }}" class="cta-button">
-                {% if current_user.is_authenticated %}
-                    Create QR Codes
-                {% else %}
-                    Get Started Free
-                {% endif %}
-            </a>
+            <a href="{{ url_for('dashboard') }}" class="cta-button">Create QR Codes</a>
         </div>
         
         <div class="content-card">

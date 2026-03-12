@@ -21,7 +21,7 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
 background:#0f1117;
 color:white;
 }
@@ -55,14 +55,58 @@ border:none;
 text-align:left;
 }
 
-button{
-margin-top:10px;
-padding:12px 18px;
-border:none;
-background:#4c7cff;
-color:white;
-border-radius:8px;
-cursor:pointer;
+/* VS Code-inspired button styling */
+.vscode-btn{
+    margin-top: 10px;
+    height: 32px;
+    padding: 0 14px;
+    border: 1px solid #3c3c3c;
+    background: #2d2d2d;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.vscode-btn:hover{
+    background: #3c3c3c;
+    border-color: #4b4b4b;
+}
+
+.vscode-btn:active{
+    background: #252526;
+}
+
+.vscode-btn:focus-visible{
+    outline: 2px solid #007acc;
+    outline-offset: 2px;
+}
+
+.vscode-btn.primary{
+    background: #0e639c;
+    border-color: #0e639c;
+}
+
+.vscode-btn.primary:hover{
+    background: #1177bb;
+    border-color: #1177bb;
+}
+
+.actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.actions .vscode-btn{
+    margin-top: 12px;
 }
 
 #qr{
@@ -76,10 +120,12 @@ text-align:center;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 2px solid #4c7cff;
+    gap: 0;
+    padding: 0;
+    border-bottom: 1px solid #1f1f1f;
     flex-wrap: wrap;
+    background: #252526;
+    border-radius: 8px;
 }
 
 .tabs::-webkit-scrollbar {
@@ -101,33 +147,32 @@ text-align:center;
 }
 
 .tab-button {
-    background: linear-gradient(135deg, #1b1f2b 0%, #151823 100%);
-    border: 2px solid rgba(76, 124, 255, 0.3);
-    color: white;
-    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #c5c5c5;
+    padding: 10px 14px;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 0;
     white-space: nowrap;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    font-size: 13px;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     display: flex;
     align-items: center;
     gap: 6px;
     font-weight: 500;
+    margin: 0;
 }
 
 .tab-button:hover {
-    background: linear-gradient(135deg, #4c7cff 0%, #6d93ff 100%);
-    border-color: #4c7cff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(76, 124, 255, 0.3);
+    background: #2a2d2e;
+    color: #ffffff;
 }
 
 .tab-button.active {
-    background: linear-gradient(135deg, #4c7cff 0%, #6d93ff 100%);
-    border-color: #4c7cff;
-    box-shadow: 0 8px 20px rgba(76, 124, 255, 0.4);
-    transform: scale(1.05);
+    background: #1e1e1e;
+    border-bottom-color: #007acc;
+    color: #ffffff;
 }
 
 .tab-content {
@@ -183,18 +228,7 @@ text-align:center;
     text-decoration: underline;
 }
 
-button {
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(76, 124, 255, 0.3);
-}
-
-button:active {
-    transform: translateY(0);
-}
+/* avoid motion/scale effects (VS Code-like) */
 
 @media (max-width: 768px) {
     .container {
@@ -220,7 +254,7 @@ button:active {
     input, select {
         font-size: 14px;
     }
-    button {
+    .vscode-btn {
         font-size: 14px;
         padding: 10px;
     }
@@ -238,7 +272,7 @@ button:active {
 
 <div>
 <a href="/"><i class="fas fa-home"></i> Home</a>
-<a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<a href="/pricing"><i class="fas fa-tags"></i> Pricing</a>
 </div>
 
 </header>
@@ -429,8 +463,10 @@ button:active {
             <option value="svg">SVG</option>
             <option value="pdf">PDF</option>
         </select>
-        <button type="button" onclick="previewQR()"><i class="fas fa-eye"></i> Preview</button>
-        <button type="submit"><i class="fas fa-download"></i> Download</button>
+        <div class="actions">
+            <button class="vscode-btn" type="button" onclick="previewQR()"><i class="fas fa-eye"></i> Preview</button>
+            <button class="vscode-btn primary" type="submit"><i class="fas fa-download"></i> Download</button>
+        </div>
     </div>
 </form>
 
