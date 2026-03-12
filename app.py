@@ -27,6 +27,11 @@ if database_url:
     # For Render with PostgreSQL
     if database_url.startswith('postgres://'):
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
+
+    # Prefer psycopg (v3) driver for better compatibility with newer Python runtimes.
+    # (psycopg2 wheels may lag behind new Python versions on some platforms.)
+    if database_url.startswith('postgresql://'):
+        database_url = database_url.replace('postgresql://', 'postgresql+psycopg://', 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 else:
     # For local development with SQLite
